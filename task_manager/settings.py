@@ -13,8 +13,18 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 
-#add settings for JSON Web Token (JWT)
+
 REST_FRAMEWORK = {
+    #add pagination
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':1,
+    #add filter for tasks
+    'DEFAULT_FILTER_BACKENDS' :[
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter'
+    ],
+    #add settings for JSON Web Token (JWT)
     'DEFAULT_AUTHENTICAION_CLASSES':(
         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
@@ -26,6 +36,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME':
     timedelta(days=7),
 }
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

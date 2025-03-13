@@ -10,7 +10,9 @@ from rest_framework import status
 # add permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import AllowAny
-
+#add filter for tasks
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 # add view for task model 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -19,6 +21,14 @@ class TaskViewSet(viewsets.ModelViewSet):
     # add permission
     permission_classes = [AllowAny]
 
+    #add filter for tasks
+    filter_backends = [DjangoFilterBackend,filters.SearchFilter , filters.OrderingFilter]
+    #add filter on fields
+    filterset_fields = ['completed']
+    #add search on title and description
+    search_fields = ['title' , 'description']
+    #add  filter craeted date
+    ordering_fields = ['created_at']
 # add view for user
 @api_view(['POST'])
 def register_user(request):
@@ -28,6 +38,7 @@ def register_user(request):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
+
 
 
 
